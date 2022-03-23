@@ -29,24 +29,12 @@ type Result struct {
 func (s SSLPlugin) GraphDefinition() map[string]mp.Graphs {
 	labelPrefix := strings.Title(s.MetricKeyPrefix())
 	return map[string]mp.Graphs{
-		"dnsLookupTime": {
-			Label: labelPrefix,
+		"": {
+			Label: labelPrefix + "_connection_time",
 			Unit:  mp.UnitFloat,
 			Metrics: []mp.Metrics{
 				{Name: "dnsLookupTime", Label: "dnsLookupTime"},
-			},
-		},
-		"tcphandshakeTime": {
-			Label: labelPrefix,
-			Unit:  mp.UnitFloat,
-			Metrics: []mp.Metrics{
 				{Name: "tcphandshakeTime", Label: "tcphandshakeTime"},
-			},
-		},
-		"sslhandshakeTime": {
-			Label: labelPrefix,
-			Unit:  mp.UnitFloat,
-			Metrics: []mp.Metrics{
 				{Name: "sslhandshakeTime", Label: "sslhandshakeTime"},
 			},
 		},
