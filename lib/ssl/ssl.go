@@ -95,14 +95,7 @@ func (res *Result) visit(url *url.URL) error {
 	}
 	req = req.WithContext(httptrace.WithClientTrace(context.Background(), trace))
 
-	tr := &http.Transport{
-		Proxy:                 http.ProxyFromEnvironment,
-		MaxIdleConns:          100,
-		IdleConnTimeout:       90 * time.Second,
-		TLSHandshakeTimeout:   10 * time.Second,
-		ExpectContinueTimeout: 1 * time.Second,
-		ForceAttemptHTTP2:     true,
-	}
+	tr := &http.Transport{}
 
 	host, _, err := net.SplitHostPort(req.Host)
 	if err != nil {
