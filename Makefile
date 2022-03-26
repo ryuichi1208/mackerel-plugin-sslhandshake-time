@@ -13,7 +13,12 @@ lint:
 	go fmt ./...
 	go vet ./...
 
-
 .PHONY:
 test:
 	go test -v ./...
+
+
+.PHONY:
+tidy:
+	go mod tidy
+	go mod verify
