@@ -15,9 +15,9 @@ import (
 	mp "github.com/mackerelio/go-mackerel-plugin"
 )
 
-type SSLPlugin struct {
+type Plugin struct {
 	Prefix string
-	Url    *url.URL
+	URL    *url.URL
 }
 
 type Result struct {
@@ -26,7 +26,7 @@ type Result struct {
 	sslhandshakeTime float64
 }
 
-func (s SSLPlugin) GraphDefinition() map[string]mp.Graphs {
+func (s Plugin) GraphDefinition() map[string]mp.Graphs {
 	labelPrefix := strings.Title(s.MetricKeyPrefix())
 	return map[string]mp.Graphs{
 		"": {
@@ -41,7 +41,7 @@ func (s SSLPlugin) GraphDefinition() map[string]mp.Graphs {
 	}
 }
 
-func (s SSLPlugin) MetricKeyPrefix() string {
+func (s Plugin) MetricKeyPrefix() string {
 	if s.Prefix == "" {
 		s.Prefix = "ssl"
 	}
@@ -131,9 +131,9 @@ func newRequest(url *url.URL) *http.Request {
 	return req
 }
 
-func (s SSLPlugin) FetchMetrics() (map[string]float64, error) {
+func (s Plugin) FetchMetrics() (map[string]float64, error) {
 	res := Result{}
-	err := res.visit(s.Url)
+	err := res.visit(s.URL)
 	if err != nil {
 		return make(map[string]float64), nil
 	}
@@ -149,9 +149,9 @@ func Do() {
 	flag.Parse()
 	args := flag.Args()
 	url := parseURL(args[0])
-	s := SSLPlugin{
+	s := Plugin{
 		Prefix: *optPrefix,
-		Url:    url,
+		URL:    url,
 	}
 	plugin := mp.NewMackerelPlugin(s)
 	plugin.Run()

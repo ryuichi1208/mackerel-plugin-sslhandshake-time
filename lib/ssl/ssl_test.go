@@ -9,11 +9,11 @@ import (
 	mp "github.com/mackerelio/go-mackerel-plugin"
 )
 
-func TestSSLPlugin_GraphDefinition(t *testing.T) {
+func TestPlugin_GraphDefinition(t *testing.T) {
 	u, _ := url.Parse("https://exmaple.com")
 	type fields struct {
 		Prefix string
-		Url    *url.URL
+		URL    *url.URL
 	}
 	tests := []struct {
 		name   string
@@ -24,7 +24,7 @@ func TestSSLPlugin_GraphDefinition(t *testing.T) {
 			name: "test",
 			fields: fields{
 				Prefix: "ssl",
-				Url:    u,
+				URL:    u,
 			},
 			want: map[string]mp.Graphs{
 				"": {
@@ -41,22 +41,22 @@ func TestSSLPlugin_GraphDefinition(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := SSLPlugin{
+			s := Plugin{
 				Prefix: tt.fields.Prefix,
-				Url:    tt.fields.Url,
+				URL:    tt.fields.URL,
 			}
 			if got := s.GraphDefinition(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SSLPlugin.GraphDefinition() = %v, want %v", got, tt.want)
+				t.Errorf("Plugin.GraphDefinition() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestSSLPlugin_MetricKeyPrefix(t *testing.T) {
+func TestPlugin_MetricKeyPrefix(t *testing.T) {
 	u, _ := url.Parse("https://exmaple.com")
 	type fields struct {
 		Prefix string
-		Url    *url.URL
+		URL    *url.URL
 	}
 	tests := []struct {
 		name   string
@@ -67,7 +67,7 @@ func TestSSLPlugin_MetricKeyPrefix(t *testing.T) {
 			name: "ssl_test1",
 			fields: fields{
 				Prefix: "ssl",
-				Url:    u,
+				URL:    u,
 			},
 			want: "ssl",
 		},
@@ -75,7 +75,7 @@ func TestSSLPlugin_MetricKeyPrefix(t *testing.T) {
 			name: "no_prefix",
 			fields: fields{
 				Prefix: "",
-				Url:    u,
+				URL:    u,
 			},
 			want: "ssl",
 		},
@@ -83,19 +83,19 @@ func TestSSLPlugin_MetricKeyPrefix(t *testing.T) {
 			name: "prefix",
 			fields: fields{
 				Prefix: "test",
-				Url:    u,
+				URL:    u,
 			},
 			want: "test",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := SSLPlugin{
+			s := Plugin{
 				Prefix: tt.fields.Prefix,
-				Url:    tt.fields.Url,
+				URL:    tt.fields.URL,
 			}
 			if got := s.MetricKeyPrefix(); got != tt.want {
-				t.Errorf("SSLPlugin.MetricKeyPrefix() = %v, want %v", got, tt.want)
+				t.Errorf("Plugin.MetricKeyPrefix() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -203,10 +203,10 @@ func Test_newRequest(t *testing.T) {
 	}
 }
 
-func TestSSLPlugin_FetchMetrics(t *testing.T) {
+func TestPlugin_FetchMetrics(t *testing.T) {
 	type fields struct {
 		Prefix string
-		Url    *url.URL
+		URL    *url.URL
 	}
 	tests := []struct {
 		name    string
@@ -218,17 +218,17 @@ func TestSSLPlugin_FetchMetrics(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := SSLPlugin{
+			s := Plugin{
 				Prefix: tt.fields.Prefix,
-				Url:    tt.fields.Url,
+				URL:    tt.fields.URL,
 			}
 			got, err := s.FetchMetrics()
 			if (err != nil) != tt.wantErr {
-				t.Errorf("SSLPlugin.FetchMetrics() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Plugin.FetchMetrics() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SSLPlugin.FetchMetrics() = %v, want %v", got, tt.want)
+				t.Errorf("Plugin.FetchMetrics() = %v, want %v", got, tt.want)
 			}
 		})
 	}

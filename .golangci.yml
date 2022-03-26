@@ -1,0 +1,14 @@
+linters:
+  enable:
+    - structcheck
+    - varcheck
+    - staticcheck
+    - unconvert
+    - gofmt
+    - goimports
+    - revive
+    - ineffassign
+    - vet
+    - unused
+    - misspell
+    - gosec
